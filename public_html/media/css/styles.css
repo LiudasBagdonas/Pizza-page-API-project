@@ -1,0 +1,212 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&family=Quicksand&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+main {
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+/*
+  # Form
+*/
+
+form {
+    width: 400px;
+    margin: 20px 0;
+    background-color: orangered;
+    padding: 20px;
+}
+
+span,
+form p {
+    font-weight: bold;
+}
+
+input {
+    padding: 7px;
+    margin: 5px;
+}
+
+button {
+    padding: 7px;
+    margin: 5px;
+    background: orangered;
+    color: white;
+}
+
+.btn {
+    background-color: black;
+    color: white;
+    width: 150px;
+    cursor: pointer;
+    font-family: 'Bangers', cursive;
+}
+
+.btn:hover {
+    background-color: gray;
+}
+
+.error {
+    color: red;
+    font-size: .8em;
+}
+
+textarea.input-field {
+    padding: 20px;
+}
+
+/*
+  # Navigation
+*/
+
+nav {
+    display: flex;
+    justify-content: center;
+    background-color: orangered;
+    width: 100vw;
+    padding: 20px;
+    font-family: 'Bangers', cursive;
+    font-size: 40px;
+}
+
+ul {
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+    padding: 0;
+    align-items: center;
+}
+
+a {
+    padding: 10px;
+    color: white;
+    background-color: orangered;
+    text-decoration: none;
+    /*margin: 30px;*/
+    font-size: 25px;
+    cursor: pointer;
+    transition: 0.4s;
+    font-family: 'Bangers', cursive;
+}
+
+a:hover {
+    color: black;
+}
+
+/*
+  # Index
+*/
+
+.index__body {
+    /*height: 100vh;*/
+}
+
+#pizza-grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+    align-content: center;
+    justify-items: center;
+    margin: 0 auto;
+}
+
+#pizza-grid-container .data-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid gray;
+}
+
+.item {
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    height: 400px;
+}
+
+img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    transition: 0.5s ease-in-out;
+    border-radius: 100%;
+    margin: 15px;
+}
+
+.product_bottom {
+    width: 150px;
+}
+
+h3, h1 {
+    margin: 10px;
+}
+
+img:hover {
+    transform: scale(1.1);
+}
+
+main {
+    margin-bottom: 50px;
+}
+
+.title {
+    font-family: 'Bangers', cursive;
+    font-size: 50px;
+    margin: 50px;
+}
+
+.table {
+    width: 80%;
+}
+
+tr, td, th {
+    margin: 10px;
+    padding: 10px;
+}
+
+.item_text {
+    font-size: 20px;
+    font-family: 'Bangers', cursive;
+    margin: 10px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: orangered;
+}
+
+.modal .close {
+    color: white;
+    font-size: 50px;
+    cursor:pointer;
+}
