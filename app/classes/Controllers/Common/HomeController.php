@@ -8,10 +8,11 @@ use App\Views\BasePage;
 use App\Views\Forms\Admin\Pizza\PizzaCreateForm;
 use App\Views\Forms\Admin\Pizza\PizzaUpdateForm;
 use App\Views\Forms\Admin\PizzaDeleteForm;
-use App\Views\Forms\Admin\OrderCreateForm;
+use App\Views\Forms\Admin\Order\OrderStatusForm;
 use Core\View;
 use App\Views\Content\HomeContent;
 use Core\Views\Link;
+use App\Controllers\User\API\OrdersApiController;
 
 class HomeController
 {
@@ -51,11 +52,12 @@ class HomeController
             if ($user['role'] == 'admin') {
                 $forms = [
                     'create' => (new PizzaCreateForm())->render(),
-                    'update' => (new PizzaUpdateForm())->render()
+                    'update' => (new PizzaUpdateForm())->render(),
                 ];
             }
 
             $heading = "Zdarova, {$user['user_name']}";
+
             $links = [
                 'login' => (new Link([
                     'url' => App::$router::getUrl('logout'),

@@ -6,7 +6,8 @@ const endpoints = {
     edit: 'api/pizza/edit',
     update: 'api/pizza/update',
     delete: 'api/pizza/delete',
-    order: '/api/order/create'
+    order: '/api/order/create',
+    order_edit: '/api/order/edit'
 };
 
 /**
@@ -14,11 +15,10 @@ const endpoints = {
  */
 const selectors = {
     forms: {
-        create: 'pizza-create-form',
-        update: 'pizza-update-form'
+        status: 'status-edit-form'
     },
     modal: 'update-modal',
-    grid: 'pizza-grid-container'
+    grid: 'admin-orders-table-container'
 }
 
 /**
@@ -57,49 +57,17 @@ function api(url, formData, success, fail) {
  * Object forms
  */
 const forms = {
-    /**
-     * Create Form
-     */
-    create: {
-        init: function () {
-            if (this.getElement()) {
-                this.getElement().addEventListener('submit', this.onSubmitListener);
-                return true;
-            }
 
-            return false;
-        },
-        getElement: function () {
-            return document.getElementById(selectors.forms.create);
-        },
-        onSubmitListener: function (e) {
-            e.preventDefault();
-            let formData = new FormData(e.target);
-            formData.append('action', 'create');
-            api(endpoints.create, formData, forms.create.success, forms.create.fail);
-        },
-        success: function (data) {
-            const element = forms.create.getElement();
-
-            grid.item.append(data);
-            forms.ui.errors.hide(element);
-            forms.ui.clear(element);
-            forms.ui.flash.class(element, 'success');
-        },
-        fail: function (errors) {
-            forms.ui.errors.show(forms.create.getElement(), errors);
-        }
-    },
     /**
      * Update Form
      */
-    update: {
+    status: {
         init: function () {
             if (this.elements.form()) {
                 this.elements.form().addEventListener('submit', this.onSubmitListener);
 
-                const closeBtn = forms.update.elements.modal().querySelector('.close');
-                closeBtn.addEventListener('click', forms.update.onCloseListener);
+                const closeBtn = forms.status.elements.modal().querySelector('.close');
+                closeBtn.addEventListener('click', forms.status.onCloseListener);
                 return true;
             }
 
@@ -107,7 +75,7 @@ const forms = {
         },
         elements: {
             form: function () {
-                return document.getElementById(selectors.forms.update);
+                return document.getElementById(selectors.forms.status);
             },
             modal: function () {
                 let modal = document.getElementById(selectors.modal);
@@ -122,24 +90,26 @@ const forms = {
         onSubmitListener: function (e) {
             e.preventDefault();
             let formData = new FormData(e.target);
-            let id = forms.update.elements.form().getAttribute('data-id');
+            let id = forms.status.elements.form().getAttribute('data-id');
             formData.append('id', id);
             formData.append('action', 'update');
 
-            api(endpoints.update, formData, forms.update.success, forms.update.fail);
+            api(endpoints.order_edit, formData, forms.status.success, forms.status.fail);
         },
         success: function (data) {
             grid.item.update(data);
-            forms.update.hide();
+            forms.status.hide();
         },
         fail: function (errors) {
-            forms.ui.errors.show(forms.update.elements.form(), errors);
+            forms.ui.errors.show(forms.status.elements.form(), errors);
         },
         fill: function (data) {
-            forms.ui.fill(forms.update.elements.form(), data);
+            console.log(data)
+            forms.ui.fill(forms.status.elements.form(), data);
         },
         onCloseListener: function (e) {
-            forms.update.hide();
+            console.log('onCloseListener')
+            forms.status.hide();
         },
         show: function () {
             this.elements.modal().style.display = 'block';
@@ -166,14 +136,16 @@ const forms = {
          * @param {Object} data
          */
         fill: function (form, data) {
+            console.log(form)
             console.log('Filling form fields with:', data);
             form.setAttribute('data-id', data.id);
 
             Object.keys(data).forEach(data_id => {
                 if (form[data_id]) {
-                    const input = form.querySelector('input[name="' + data_id + '"]');
+                    const input = form.querySelector('select[name="' + data_id + '"]');
                     if (input) {
-                        input.value = data[data_id];
+                        console.log(data.status)
+                        input.setAttribute('value', data.status);
                     } else {
                         console.log('Could not fill field ' + data_id + 'because it wasn`t found in form');
                     }
@@ -272,9 +244,10 @@ const grid = {
          */
         load: function () {
             console.log('Grid: Calling API to get data...');
-            api(endpoints.get, null, this.success, this.fail);
+            api(endpoints.order_edit, null, this.success, this.fail);
         },
         success: function (data) {
+            console.log(data)
             Object.keys(data).forEach(i => {
                 grid.item.append(data[i]);
             });
@@ -295,7 +268,7 @@ const grid = {
          */
         build: function (data) {
             console.log(data)
-            const item = document.createElement('div');
+            const item = document.createElement('tr');
 
             if (data.id == null) {
                 throw Error('JS can`t build the item, because API data doesn`t contain its ID. Check API controller!');
@@ -306,12 +279,16 @@ const grid = {
 
             Object.keys(data).forEach(data_id => {
                 switch (data_id) {
-                    case 'image':
-                        let img = document.createElement('img');
-                        img.src = data[data_id];
-                        item.append(img);
+                    // case 'image':
+                    //     let img = document.createElement('img');
+                    //     img.src = data[data_id];
+                    //     item.append(img);
+                    //     break;
+                    case 'headers':
+                        let header = document.createElement('td');
+                        header = data[data_id];
+                        item.append(header);
                         break;
-
                     case 'buttons':
                         let buttons = data[data_id];
                         Object.keys(buttons).forEach(button_id => {
@@ -324,7 +301,7 @@ const grid = {
                         break;
 
                     default:
-                        let span = document.createElement('span');
+                        let span = document.createElement('td');
                         span.innerHTML = data[data_id];
                         span.className = data_id;
                         item.append(span);
@@ -352,49 +329,11 @@ const grid = {
             let item = grid.getElement().querySelector('.data-item[data-id="' + data.id + '"]');
             item.replaceWith(this.build(data));
             //row = this.build(data);
-        },
-        /**
-         * Deletes existing item
-         * @param {Integer} id
-         */
-        delete: function (id) {
-            const item = grid.getElement().querySelector('.data-item[data-id="' + id + '"]');
-            item.remove();
         }
     },
     // Buttons are declared on whole grid, not on each item individually, so
     // onClickListeners dont duplicate
     buttons: {
-        delete: {
-            init: function () {
-                if (grid.getElement()) {
-                    grid.getElement().addEventListener('click', this.onClickListener);
-                    return true;
-                }
-
-                return false;
-            },
-            onClickListener: function (e) {
-                // Listener is set on whole grid, so we listen for which class button
-                // has been pressed
-                if (e.target.className === 'delete') {
-                    let formData = new FormData();
-
-                    // Find container of the button, which has ID
-                    let item = e.target.closest('.data-item');
-                    console.log('Delete button clicked on', item);
-
-                    formData.append('id', item.getAttribute('data-id'));
-                    api(endpoints.delete, formData, grid.buttons.delete.success, grid.buttons.delete.fail);
-                }
-            },
-            success: function (data) {
-                grid.item.delete(data.id);
-            },
-            fail: function (errors) {
-                alert(errors[0]);
-            }
-        },
         edit: {
             init: function () {
                 if (grid.getElement()) {
@@ -407,49 +346,17 @@ const grid = {
             onClickListener: function (e) {
                 if (e.target.className === 'edit') {
                     let formData = new FormData();
-
                     let item = e.target.closest('.data-item');
                     console.log('Edit button clicked on', item);
 
                     formData.append('id', item.getAttribute('data-id'));
-                    api(endpoints.edit, formData, grid.buttons.edit.success, grid.buttons.edit.fail);
+                    api(endpoints.order_edit, formData, grid.buttons.edit.success, grid.buttons.edit.fail);
                 }
             },
             success: function (api_data) {
-                forms.update.show();
-                forms.update.fill(api_data);
-            },
-            fail: function (errors) {
-                alert(errors[0]);
-            }
-        },
-        order: {
-            init: function () {
-                if (grid.getElement()) {
-                    grid.getElement().addEventListener('click', this.onClickListener);
-                    return true;
-                }
-
-                return false;
-            },
-            onClickListener: function (e) {
-                // Listener is set on whole grid, so we listen for which class button
-                // has been pressed
-                console.log('order event')
-                if (e.target.className === 'order') {
-
-                    let formData = new FormData();
-console.log(formData)
-                    // Find container of the button, which has ID
-                    let item = e.target.closest('.data-item');
-                    console.log('Order button clicked on', item);
-
-                    formData.append('id', item.getAttribute('data-id'));
-                    api(endpoints.order, formData, grid.buttons.order.success, grid.buttons.order.fail);
-                }
-            },
-            success: function (data) {
-               alert('Created order');
+                forms.status.show();
+//fill() function has to send particular row
+                forms.status.fill(api_data);
             },
             fail: function (errors) {
                 alert(errors[0]);
@@ -466,6 +373,7 @@ const app = {
         // Initialize all forms
         Object.keys(forms).forEach(formId => {
             let success = forms[formId].init();
+            console.log(forms[formId])
             console.log('Initializing form "' + formId + '": ' + (success ? 'SUCCESS' : 'FAIL'));
         });
 

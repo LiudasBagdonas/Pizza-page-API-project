@@ -12,13 +12,13 @@ class OrderStatusForm extends Form
     {
         parent::__construct([
             'attr' => [
-                'method' => 'POST'
+                'id' => 'status-edit-form'
             ],
             'fields' => [
-                'row_id' => [
-                    'type' => 'hidden',
-                    'value' => $id
-                ],
+//                'row_id' => [
+//                    'type' => 'hidden',
+//                    'value' => $id
+//                ],
                 'status' => [
                     'type' => 'select',
                     'options' => [

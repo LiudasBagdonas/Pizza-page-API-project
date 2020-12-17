@@ -5,6 +5,8 @@ namespace App\Controllers\User;
 use App\Controllers\Base\UserController;
 use App\Views\BasePage;
 use App\Views\Tables\User\OrderTable;
+use Core\Api\Response;
+
 
 class OrdersController extends UserController
 {
@@ -15,6 +17,7 @@ class OrdersController extends UserController
         parent::__construct();
         $this->page = new BasePage([
             'title' => 'Orders',
+            'js' => ['/media/js/user/order.js']
         ]);
     }
 
@@ -24,4 +27,6 @@ class OrdersController extends UserController
         $this->page->setContent($table->render());
         return $this->page->render();
     }
+
+    public function
 }

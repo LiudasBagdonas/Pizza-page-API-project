@@ -13,36 +13,44 @@ class OrdersTable extends Table
     public function __construct()
     {
         $this->form = new OrderStatusForm();
-        $rows = App::$db->getRowsWhere('orders');
+        $orders = App::$db->getRowsWhere('orders');
+        $rows = [];
+        $this->form = new OrderStatusForm();
 
-        foreach ($rows as $id => &$row) {
+        foreach ($orders as $id => &$order) {
 
-            $user = App::$db->getRowWhere('users', ['email' => $row['email']]);
+            $rows[$id]['id'] = $id;
+            $user = App::$db->getRowWhere('users', ['email' => $order['email']]);
 
-            $row['user_name'] = $user['user_name'];
+            $rows[$id]['user_name'] = $user['user_name'];
+            $rows[$id]['pizza_name'] = $order['name'];
 
-            $timestamp = date('Y-m-d H:i:s', $row['timestamp']);
+            $timestamp = date('Y-m-d H:i:s', $order['timestamp']);
             $difference = abs(strtotime("now") - strtotime($timestamp));
             $days = floor($difference / (3600 * 24));
             $hours = floor($difference / 3600);
             $minutes = floor(($difference - ($hours * 3600)) / 60);
             $result = "{$days}d {$hours}:{$minutes} H";
 
-            $row['timestamp'] = $result;
+            $rows[$id]['timestamp'] = $result;
+            $rows[$id]['status'] = $order['status'];
 
-            $statusForm = new OrderStatusForm($row['status'], $id);
-            $row['status_form'] = $statusForm->render();
+//            $rows[$id]['action'] = $this->form->render();
 
-            unset($row['email'], $row['status']);
+//            $statusForm = new OrderStatusForm($order['status'], $id);
+//            $row['status_form'] = $statusForm->render();
+
+            unset($order['email']);
         }
 
         parent::__construct([
             'headers' => [
                 'ID',
+                'User Name',
                 'Pizza Name',
                 'Time Ago',
-                'User Name',
-                'Status'
+                'Status',
+                'Action'
             ],
             'rows' => $rows
         ]);

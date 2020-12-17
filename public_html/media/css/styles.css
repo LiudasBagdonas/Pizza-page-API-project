@@ -23,14 +23,34 @@ main {
     align-items: center;
 }
 
+h1, h2, h3, h4 {
+    margin: 10px;
+}
+
+main {
+    margin-bottom: 50px;
+}
+
+.title {
+    font-family: 'Bangers', cursive;
+    font-size: 50px;
+    margin: 50px;
+}
+
 table, th, td {
     border: 1px solid black;
     border-collapse: collapse;
 }
 
-/*
-  # Form
-*/
+tr, td, th {
+    margin: 10px;
+    padding: 10px;
+}
+
+
+/*######################
+##  Form
+########################*/
 
 form {
     width: 400px;
@@ -39,9 +59,12 @@ form {
     padding: 20px;
 }
 
-span,
 form p {
     font-weight: bold;
+}
+
+label {
+    font-family: Arial;
 }
 
 input {
@@ -49,23 +72,39 @@ input {
     margin: 5px;
 }
 
+textarea {
+    padding: 20px;
+}
+
 button {
     padding: 7px;
     margin: 5px;
     background: orangered;
     color: white;
-}
-
-.btn {
-    background-color: black;
-    color: white;
     width: 150px;
-    cursor: pointer;
+    border: 2px solid white;
     font-family: 'Bangers', cursive;
+    cursor: pointer;
 }
 
-.btn:hover {
-    background-color: gray;
+button:hover {
+    background: white;
+    color: orangered;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: orangered;
+}
+
+.modal .close {
+    color: white;
+    font-size: 50px;
+    cursor: pointer;
 }
 
 .error {
@@ -73,13 +112,9 @@ button {
     font-size: .8em;
 }
 
-textarea.input-field {
-    padding: 20px;
-}
-
-/*
-  # Navigation
-*/
+/*######################
+##  Navigation
+########################*/
 
 nav {
     display: flex;
@@ -115,13 +150,10 @@ a:hover {
     color: black;
 }
 
-/*
-  # Index
-*/
 
-.index__body {
-    /*height: 100vh;*/
-}
+/*######################
+##  Index Page
+########################*/
 
 #pizza-grid-container {
     display: grid;
@@ -134,23 +166,16 @@ a:hover {
 
 #pizza-grid-container .data-item {
     display: flex;
+    width: 250px;
+    height: 400px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border: 1px solid gray;
+    padding: 5px;
 }
 
-.item {
-    margin: 5px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 250px;
-    height: 400px;
-}
-
-img {
+#pizza-grid-container img {
     width: 250px;
     height: 250px;
     object-fit: cover;
@@ -159,54 +184,6 @@ img {
     margin: 15px;
 }
 
-.product_bottom {
-    width: 150px;
-}
-
-h3, h1 {
-    margin: 10px;
-}
-
-img:hover {
+#pizza-grid-container img:hover {
     transform: scale(1.1);
-}
-
-main {
-    margin-bottom: 50px;
-}
-
-.title {
-    font-family: 'Bangers', cursive;
-    font-size: 50px;
-    margin: 50px;
-}
-
-.table {
-    width: 80%;
-}
-
-tr, td, th {
-    margin: 10px;
-    padding: 10px;
-}
-
-.item_text {
-    font-size: 20px;
-    font-family: 'Bangers', cursive;
-    margin: 10px;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: orangered;
-}
-
-.modal .close {
-    color: white;
-    font-size: 50px;
-    cursor:pointer;
 }

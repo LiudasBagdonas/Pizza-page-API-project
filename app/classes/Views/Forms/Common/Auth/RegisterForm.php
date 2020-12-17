@@ -9,12 +9,9 @@ class RegisterForm extends Form
     public function __construct()
     {
         parent::__construct([
-            'attr' => [
-                'method' => 'POST',
-            ],
             'fields' => [
                 'email' => [
-                    'label' => 'EMAIL',
+                    'label' => 'Email',
                     'type' => 'text',
                     'validators' => [
                         'validate_field_not_empty',
@@ -24,12 +21,11 @@ class RegisterForm extends Form
                     'extra' => [
                         'attr' => [
                             'placeholder' => 'Enter email',
-                            'class' => 'input-field',
                         ]
                     ]
                 ],
                 'user_name' => [
-                    'label' => 'NAME',
+                    'label' => 'Name',
                     'type' => 'text',
                     'validators' => [
                         'validate_field_not_empty',
@@ -37,46 +33,37 @@ class RegisterForm extends Form
                     'extra' => [
                         'attr' => [
                             'placeholder' => 'Enter your full name',
-                            'class' => 'input-field',
                         ]
                     ]
                 ],
                 'password' => [
-                    'label' => 'PASSWORD',
-                    'type' => 'text',
+                    'label' => 'Password',
+                    'type' => 'password',
                     'validators' => [
                         'validate_field_not_empty',
                     ],
                     'extra' => [
                         'attr' => [
                             'placeholder' => 'Enter password',
-                            'class' => 'input-field',
-                        ]
+                         ]
                     ]
                 ],
                 'password_repeat' => [
-                    'label' => 'PASSWORD REPEAT',
-                    'type' => 'text',
+                    'label' => 'Password Repeat',
+                    'type' => 'password',
                     'validators' => [
                         'validate_field_not_empty',
                     ],
                     'extra' => [
                         'attr' => [
                             'placeholder' => 'Repeat password',
-                            'class' => 'input-field',
                         ]
                     ]
                 ],
             ],
             'buttons' => [
-                'send' => [
-                    'title' => 'REGISTER',
-                    'type' => 'submit',
-                    'extra' => [
-                        'attr' => [
-                            'class' => 'btn',
-                        ]
-                    ]
+                'register' => [
+                    'title' => 'Register',
                 ]
             ],
             'validators' => [

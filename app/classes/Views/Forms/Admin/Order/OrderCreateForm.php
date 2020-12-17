@@ -12,7 +12,8 @@ class OrderCreateForm extends Form
     {
         parent::__construct([
             'attr' => [
-                'method' => 'POST'
+                'method' => 'POST',
+                'id' => 'pizza-order-form',
             ],
             'fields' => [
                 'row_id' => [

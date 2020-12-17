@@ -13,13 +13,21 @@ Router::add('index', '/', \App\Controllers\Common\HomeController::class);
 Router::add('index2', '/index.php', \App\Controllers\Common\HomeController::class);
 
 // Admin Routes
-Router::add('admin_orders', "/admin/orders", \App\Controllers\Admin\OrdersController::class);
+//Router::add('admin_orders', "/admin/orders", \App\Controllers\Admin\OrdersController::class);
 Router::add('admin_users', "/admin/users", \App\Controllers\Admin\UsersController::class);
+Router::add('admin_orders', "/admin/orders", \App\Controllers\Admin\API\OrdersApiController::class);
+Router::add('admin_orders_edit', "/admin/orders", \App\Controllers\Admin\API\OrdersApiController::class, 'update');
+Router::add('admin_orders_data', "/admin/orders/data", \App\Controllers\Admin\API\OrdersApiController::class, 'edit');
+
 
 // User Routes
 Router::add('user_orders', '/my/orders', \App\Controllers\User\OrdersController::class);
 
+
 // API Routes
+Router::add('api_order_create', '/api/order/create', \App\Controllers\User\API\OrdersApiController::class, 'create');
+Router::add('api_order_edit', '/api/order/edit', \App\Controllers\Admin\API\OrdersApiController::class, 'edit');
+
 Router::add('api_pizza_get', '/api/pizza/get', \App\Controllers\Common\API\PizzaApiController::class);
 Router::add('api_pizza_create', '/api/pizza/create', \App\Controllers\Admin\API\PizzaApiController::class, 'create');
 Router::add('api_pizza_edit', '/api/pizza/edit', \App\Controllers\Admin\API\PizzaApiController::class, 'edit');

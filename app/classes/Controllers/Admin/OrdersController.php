@@ -24,7 +24,8 @@ class OrdersController extends AdminController
     {
         parent::__construct();
         $this->page = new BasePage([
-            'title' => 'Orders'
+            'title' => 'Orders',
+            'js' => ['/media/js/admin/order.js']
         ]);
         $this->form = new OrderStatusForm();
     }
@@ -36,7 +37,10 @@ class OrdersController extends AdminController
         if ($this->form->validate()) {
             $clean_inputs = $this->form->values();
 
-            foreach ($rows as $id => $row) {
+            foreach ($rows as $id => &$row) {
+
+                $row['row_id'] = $id;
+
                 if ($clean_inputs['row_id'] == $id) {
                     $row['status'] = $clean_inputs['status'];
                     App::$db->updateRow('orders', $id, $row);
